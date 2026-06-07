@@ -5,6 +5,31 @@
     padding: 0;
   }
 
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  /* Pulse animation for the heart seal to make it look clickable */
+  @keyframes pulse {
+    0% {
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.1);
+    }
+    100% {
+      transform: translateX(-50%) scale(1);
+    }
+  }
+
   /* .scene {
     display: flex;
     flex-direction: column;
@@ -49,22 +74,24 @@
     cursor: pointer;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
+    /* Runs the float animation infinitely with a smooth timing function */
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .envelope-wrap:hover {
+    animation-play-state: paused;
   }
 
   .envelope {
     position: relative;
-    /* Uses fluid width on small screens, maxes out at 360px on desktop */
-    width: 100%;
-    max-width: 360px;
-    /* Automatically handles the height calculation perfectly */
-    aspect-ratio: 16 / 11;
-    transition: transform 0.3s ease;
+    width: min(320px, 90vw);
+    height: calc(min(320px, 90vw) * 0.6875);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
-  .envelope:hover {
-    transform: scale(1.05);
+  .envelope-wrap:hover .envelope {
+    transform: scale(1.06);
   }
 
   .env-body {
@@ -126,6 +153,17 @@
     font-size: 16px;
     border: 2px solid #c23a44;
     z-index: 5;
+    /* Animates the heart seal */
+    animation: pulse 2s infinite ease-in-out;
+    transition:
+      background 0.3s,
+      transform 0.2s;
+  }
+
+  .envelope-wrap:hover .seal {
+    background: #c23a44;
+    animation-play-state: paused;
+    transform: translateX(-50%) scale(1.05);
   }
 
   .env-flap {
