@@ -5,7 +5,7 @@
     padding: 0;
   }
 
-  .scene {
+  /* .scene {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,6 +31,40 @@
 
   .envelope:hover {
     transform: scale(1.03);
+  } */
+
+  .scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Changed min-height to 100vh to perfectly fill any screen height */
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    font-family: var(--font-sans);
+    background-color: #fff5f5; /* Optional: soft background to match the aesthetic */
+  }
+
+  .envelope-wrap {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .envelope {
+    position: relative;
+    /* Uses fluid width on small screens, maxes out at 360px on desktop */
+    width: 100%;
+    max-width: 360px;
+    /* Automatically handles the height calculation perfectly */
+    aspect-ratio: 16 / 11;
+    transition: transform 0.3s ease;
+  }
+
+  .envelope:hover {
+    transform: scale(1.05);
   }
 
   .env-body {
