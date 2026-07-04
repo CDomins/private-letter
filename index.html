@@ -17,7 +17,6 @@
     }
   }
 
-  /* Pulse animation for the heart seal to make it look clickable */
   @keyframes pulse {
     0% {
       transform: translateX(-50%) scale(1);
@@ -30,7 +29,6 @@
     }
   }
 
-  /* Grand entrance: drops from above, bounces into place */
   @keyframes grandDrop {
     0% {
       opacity: 0;
@@ -51,7 +49,6 @@
     }
   }
 
-  /* Shimmer sweep across envelope after landing */
   @keyframes shimmer {
     0% {
       left: -100%;
@@ -66,7 +63,6 @@
     }
   }
 
-  /* Hearts burst around envelope */
   @keyframes heartBurst1 {
     0% {
       opacity: 0;
@@ -138,7 +134,6 @@
     }
   }
 
-  /* Button slides up after envelope lands */
   @keyframes slideUp {
     0% {
       opacity: 0;
@@ -161,16 +156,46 @@
     }
   }
 
+  @keyframes letterSlideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes letterSlideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes imgFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .scene {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Changed min-height to 100vh to perfectly fill any screen height */
     min-height: 100vh;
     padding: 2rem 1rem;
     font-family: var(--font-sans);
-    background-color: #fff5f5; /* Optional: soft background to match the aesthetic */
+    background-color: #fff5f5;
   }
 
   .envelope-wrap {
@@ -178,7 +203,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    /* Runs the float animation infinitely with a smooth timing function */
     animation:
       float 3s ease-in-out infinite,
       grandDrop 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
@@ -227,7 +251,6 @@
     z-index: 10;
   }
 
-  /* Heart burst particles */
   .heart-particle {
     position: absolute;
     top: 50%;
@@ -302,7 +325,6 @@
     font-size: 16px;
     border: 2px solid #c23a44;
     z-index: 5;
-    /* Animates the heart seal */
     animation: pulse 2s infinite ease-in-out;
     transition:
       background 0.3s,
@@ -398,28 +420,35 @@
     display: flex;
   }
 
+  .letter-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 620px;
+  }
+
   .letter-card {
     background: #fffdf6;
+    background-size: cover;
+    background-position: center;
     border: 1px solid #e8d8b0;
     border-radius: 12px;
     padding: clamp(1.2rem, 5vw, 2rem) clamp(1.2rem, 6vw, 2.5rem);
     width: 100%;
     max-width: 520px;
-    max-height: 88vh;
+    max-height: 78vh;
     overflow-y: auto;
     position: relative;
     animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  @keyframes popIn {
-    from {
-      opacity: 0;
-      transform: scale(0.85) translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
+  .letter-card.slide-right {
+    animation: letterSlideInRight 0.32s ease both;
+  }
+  .letter-card.slide-left {
+    animation: letterSlideInLeft 0.32s ease both;
   }
 
   .letter-card::before {
@@ -435,6 +464,18 @@
       #f0a0a8 12px 24px
     );
     border-radius: 12px 12px 0 0;
+    z-index: 2;
+  }
+
+  /* Readability layer for when a letter uses a background photo */
+  .letter-content-inner {
+    position: relative;
+  }
+  .letter-card.has-bg .letter-content-inner {
+    background: rgba(255, 253, 246, 0.88);
+    border-radius: 8px;
+    padding: 14px 16px;
+    backdrop-filter: blur(1px);
   }
 
   .close-btn {
@@ -450,9 +491,60 @@
     transition: color 0.2s;
     touch-action: manipulation;
     padding: 4px;
+    z-index: 6;
   }
   .close-btn:hover {
     color: #d94f5a;
+  }
+  .letter-card.has-bg .close-btn {
+    background: rgba(255, 253, 246, 0.88);
+    border-radius: 50%;
+  }
+
+  .nav-arrow {
+    background: #fffdf6;
+    border: 1px solid #e8d8b0;
+    color: #d94f5a;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(180, 90, 90, 0.18);
+    transition:
+      background 0.2s,
+      color 0.2s,
+      transform 0.15s,
+      opacity 0.2s;
+    touch-action: manipulation;
+    z-index: 5;
+  }
+
+  .nav-arrow:hover {
+    background: #d94f5a;
+    color: white;
+    transform: scale(1.08);
+  }
+
+  .nav-arrow:active {
+    transform: scale(0.95);
+  }
+
+  .nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .nav-arrow.left {
+    margin-right: 12px;
+  }
+  .nav-arrow.right {
+    margin-left: 12px;
   }
 
   .letter-header {
@@ -474,6 +566,14 @@
   .letter-to span {
     font-weight: 500;
     color: #6a3a3a;
+  }
+
+  .letter-count {
+    font-size: clamp(10.5px, 2.8vw, 11.5px);
+    color: #c98080;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 6px;
   }
 
   .divider {
@@ -511,6 +611,125 @@
     font-size: clamp(13px, 3.5vw, 14px);
     margin-top: 2px;
   }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 14px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e8c0c0;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+    border: none;
+    padding: 0;
+  }
+  .dot.active {
+    background: #d94f5a;
+    transform: scale(1.25);
+  }
+
+  /* Image block shown above the body (imageMode: "top") */
+  .letter-images {
+    position: relative;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f2e0e0;
+  }
+
+  .letter-images img {
+    display: block;
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    animation: imgFadeIn 0.25s ease both;
+  }
+
+  .img-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    color: #d94f5a;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    z-index: 3;
+  }
+  .img-nav:hover {
+    background: #fff;
+    transform: translateY(-50%) scale(1.08);
+  }
+  .img-nav:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .img-nav.prev {
+    left: 8px;
+  }
+  .img-nav.next {
+    right: 8px;
+  }
+
+  .img-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 3;
+  }
+  .img-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+  .img-dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  @media (max-width: 560px) {
+    .letter-stage {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .nav-arrow.left,
+    .nav-arrow.right {
+      margin: 0;
+    }
+    .letter-arrows-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      order: 2;
+    }
+  }
+
   p {
     font-family: "Pacifico", cursive;
   }
@@ -525,7 +744,7 @@
     <link
       href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
       rel="stylesheet" />
-    <title>My Peypey's Letter</title>
+    <title>My Peypey's Letters</title>
   </head>
   <body>
     <div class="scene">
@@ -553,80 +772,265 @@
         </div>
       </div>
 
-      <button class="open-btn" onclick="openLetter()">Open Letter ♥</button>
+      <button class="open-btn" onclick="openLetter()">Open Letters ♥</button>
     </div>
 
     <div class="letter-overlay" id="overlay" onclick="maybeClose(event)">
-      <div class="letter-card" id="letterCard">
+      <div class="letter-stage">
         <button
-          class="close-btn"
-          onclick="closeLetter()"
-          aria-label="Close letter">
-          ✕
+          class="nav-arrow left"
+          id="prevBtn"
+          onclick="showLetter(currentIndex - 1)"
+          aria-label="Previous letter">
+          &#8592;
         </button>
 
-        <div class="letter-header">
-          <span class="letter-heart">💌</span>
-          <p class="letter-to">Hello <span>Baby, Babe, Wifey, Love</span></p>
+        <div class="letter-card" id="letterCard">
+          <button
+            class="close-btn"
+            onclick="closeLetter()"
+            aria-label="Close letter">
+            ✕
+          </button>
+
+          <div class="letter-content-inner">
+            <div class="letter-header">
+              <span class="letter-heart" id="letterHeart">💌</span>
+              <p class="letter-to" id="letterTo">Hello <span>Baby</span></p>
+              <div class="letter-count" id="letterCount"></div>
+            </div>
+
+            <div id="imagesSlot"></div>
+
+            <hr class="divider" />
+
+            <div class="letter-body" id="letterBody"></div>
+
+            <hr class="divider" />
+
+            <div class="letter-footer" id="letterFooter"></div>
+
+            <div class="dots" id="dots"></div>
+          </div>
         </div>
 
-        <hr class="divider" />
-
-        <div class="letter-body">
-          <p>
-            I just want to say through this letter that I want to marry you.
-            This may not be an official proposal, but I just want you to know my
-            true intention towards you, because you're the only person I want to
-            see when I wake up, and the only person I want to kiss goodnight. I
-            want to sleep with, eat with, struggle with, grow with, and above
-            all, prosper with.
-          </p>
-          <p>
-            The day that I realized, you are a truly one-of-a-kind woman, I knew
-            that loving you would be worth any risk, and I am more than willing
-            to take it.
-          </p>
-          <p>
-            I know our relationship isn't traditional, and people might not
-            always understand it. But all I care about is that you truly want to
-            marry me.
-          </p>
-          <p>
-            I am fully committed to our future. I will patiently wait and
-            cherish every moment we share until the day you walk down the aisle
-            and we stand together at the altar.
-          </p>
-          <p>
-            And Lastly, when you love someone as much as I love you, getting
-            married is the only thing left to do.
-          </p>
-        </div>
-
-        <hr class="divider" />
-
-        <div class="letter-footer">
-          With all my heart,
-          <strong>Your Handsome Husband ♥</strong>
-        </div>
+        <button
+          class="nav-arrow right"
+          id="nextBtn"
+          onclick="showLetter(currentIndex + 1)"
+          aria-label="Next letter">
+          &#8594;
+        </button>
       </div>
     </div>
+
+    <script>
+      // ---------------------------------------------------------------
+      // Add as many letters as you'd like here.
+      //
+      // Each letter supports an optional "images" array (0, 1, or many
+      // photo URLs). If there's more than one image, small left/right
+      // arrows + dots appear so they can be paged through independently
+      // of the letter navigation.
+      //
+      // "imageMode" controls how the image is shown:
+      //   "top"        -> image(s) shown in a rounded box above the body
+      //   "background" -> image(s) used as the letter's background,
+      //                   with the text sitting on a soft frosted panel
+      //                   on top so it stays readable
+      //
+      // If "images" is omitted or empty, the letter renders exactly like
+      // before (no image block at all).
+      // ---------------------------------------------------------------
+      const letters = [
+        {
+          heart: "💌",
+          to: "Happy Birthday <span>Baby, Babe, Wifey, Love</span>",
+          images: [
+            "images/photo4.jpg",
+            "images/photo2.jpg",
+            "images/icon.jpg",
+            "images/photo1.jpg",
+            "images/photo3.jpg",
+          ],
+          imageMode: "top", // "top" or "background"
+          body: [
+            "Happy Birthday babyy, words not enough to describe how much I'm happy to be with you, it's your day and finally you're 19 years old.",
+            "I wish to have you a healthy more years to come, wish you the best. 1 year to go and you'll reach 20s na and escaping teenager. but regardless all you need to worry is how you gonna enjoy your life and here me as your partner by your side lang to support whatever you want to do in your life.",
+            "I know how genuinely you are, being a good partner, a friend, a sister, and a daughter, continue mo lng yan babyy fight lang sa life, may mga pagsubok ka man kinahaharap sa life, sa school and sa family laban lang po alam kong kaya mo yan, you have the skills, the mindset and the dedication you need para lampasan lahat nang iyon.",
+            "I love you babe and I miss you, Happy Birthday, wish you the best.",
+          ],
+          footer: "With all my heart,",
+          signature: "Your Handsome Boyfriend ♥",
+        },
+        {
+          heart: "💌",
+          to: "Hello <span>Baby, Babe, Wifey, Love</span>",
+          images: [
+            // "images/icon.jpg",
+            // "https://example.com/photo2.jpg",
+          ],
+          imageMode: "top", // "top" or "background"
+          body: [
+            "I just want to say through this letter that I want to marry you. This may not be an official proposal, but I just want you to know my true intention towards you, because you're the only person I want to see when I wake up, and the only person I want to kiss goodnight. I want to sleep with, eat with, struggle with, grow with, and above all, prosper with.",
+            "The day that I realized, you are a truly one-of-a-kind woman, I knew that loving you would be worth any risk, and I am more than willing to take it.",
+            "I know our relationship isn't traditional, and people might not always understand it. But all I care about is that you truly want to marry me.",
+            "I am fully committed to our future. I will patiently wait and cherish every moment we share until the day you walk down the aisle and we stand together at the altar.",
+            "And Lastly, when you love someone as much as I love you, getting married is the only thing left to do.",
+          ],
+          footer: "With all my heart,",
+          signature: "Your Handsome Husband ♥",
+        },
+      ];
+
+      let currentIndex = 0;
+      let currentImageIndex = 0;
+
+      function renderImages(letter) {
+        const slot = document.getElementById("imagesSlot");
+        const card = document.getElementById("letterCard");
+        const images = letter.images || [];
+
+        // Reset background mode styling first
+        card.classList.remove("has-bg");
+        card.style.backgroundImage = "";
+
+        if (images.length === 0) {
+          slot.innerHTML = "";
+          return;
+        }
+
+        if (letter.imageMode === "background") {
+          card.classList.add("has-bg");
+          card.style.backgroundImage = `url("${images[currentImageIndex]}")`;
+          slot.innerHTML = "";
+          // Still offer paging controls for multiple background images
+          if (images.length > 1) {
+            slot.innerHTML = `
+              <div class="letter-images" style="background:none; height:0; margin:0; overflow:visible;">
+                <button class="img-nav prev" style="top:-38px; position:absolute; left:0;" onclick="showImage(-1)" ${currentImageIndex === 0 ? "disabled" : ""} aria-label="Previous photo">&#8592;</button>
+                <button class="img-nav next" style="top:-38px; position:absolute; right:0;" onclick="showImage(1)" ${currentImageIndex === images.length - 1 ? "disabled" : ""} aria-label="Next photo">&#8594;</button>
+              </div>`;
+          }
+          return;
+        }
+
+        // "top" mode: rounded image box above the body
+        const dotsHtml =
+          images.length > 1
+            ? `<div class="img-dots">${images
+                .map(
+                  (_, i) =>
+                    `<button class="img-dot ${i === currentImageIndex ? "active" : ""}" onclick="jumpToImage(${i})" aria-label="Photo ${i + 1}"></button>`,
+                )
+                .join("")}</div>`
+            : "";
+
+        slot.innerHTML = `
+          <div class="letter-images">
+            <img src="${images[currentImageIndex]}" alt="Letter photo ${currentImageIndex + 1}" />
+            ${images.length > 1 ? `<button class="img-nav prev" onclick="showImage(-1)" ${currentImageIndex === 0 ? "disabled" : ""} aria-label="Previous photo">&#8592;</button>` : ""}
+            ${images.length > 1 ? `<button class="img-nav next" onclick="showImage(1)" ${currentImageIndex === images.length - 1 ? "disabled" : ""} aria-label="Next photo">&#8594;</button>` : ""}
+            ${dotsHtml}
+          </div>`;
+      }
+
+      function showImage(delta) {
+        const letter = letters[currentIndex];
+        const images = letter.images || [];
+        const next = currentImageIndex + delta;
+        if (next < 0 || next > images.length - 1) return;
+        currentImageIndex = next;
+        renderImages(letter);
+      }
+
+      function jumpToImage(i) {
+        currentImageIndex = i;
+        renderImages(letters[currentIndex]);
+      }
+
+      function renderLetter(index, direction) {
+        const letter = letters[index];
+        const card = document.getElementById("letterCard");
+
+        currentImageIndex = 0;
+
+        document.getElementById("letterHeart").textContent = letter.heart;
+        document.getElementById("letterTo").innerHTML = letter.to;
+        document.getElementById("letterBody").innerHTML = letter.body
+          .map((p) => `<p>${p}</p>`)
+          .join("");
+        document.getElementById("letterFooter").innerHTML =
+          `${letter.footer}<strong>${letter.signature}</strong>`;
+        document.getElementById("letterCount").textContent =
+          letters.length > 1 ? `Letter ${index + 1} of ${letters.length}` : "";
+
+        renderImages(letter);
+
+        document.getElementById("prevBtn").disabled = index === 0;
+        document.getElementById("nextBtn").disabled =
+          index === letters.length - 1;
+
+        renderDots(index);
+
+        card.classList.remove("slide-left", "slide-right");
+        // Force reflow so animation restarts
+        void card.offsetWidth;
+        if (direction === "next") card.classList.add("slide-right");
+        if (direction === "prev") card.classList.add("slide-left");
+
+        card.scrollTop = 0;
+      }
+
+      function renderDots(index) {
+        const dotsEl = document.getElementById("dots");
+        if (letters.length <= 1) {
+          dotsEl.innerHTML = "";
+          return;
+        }
+        dotsEl.innerHTML = letters
+          .map(
+            (_, i) =>
+              `<button class="dot ${i === index ? "active" : ""}" onclick="showLetter(${i})" aria-label="Go to letter ${i + 1}"></button>`,
+          )
+          .join("");
+      }
+
+      function showLetter(index) {
+        if (index < 0 || index > letters.length - 1) return;
+        const direction = index > currentIndex ? "next" : "prev";
+        currentIndex = index;
+        renderLetter(currentIndex, direction);
+      }
+
+      function openLetter() {
+        document.getElementById("flap").classList.add("open");
+        currentIndex = 0;
+        renderLetter(currentIndex, null);
+        setTimeout(() => {
+          document.getElementById("overlay").classList.add("visible");
+        }, 400);
+      }
+
+      function closeLetter() {
+        document.getElementById("overlay").classList.remove("visible");
+        setTimeout(() => {
+          document.getElementById("flap").classList.remove("open");
+        }, 200);
+      }
+
+      function maybeClose(e) {
+        if (e.target === document.getElementById("overlay")) closeLetter();
+      }
+
+      function handleKeydown(e) {
+        if (!document.getElementById("overlay").classList.contains("visible"))
+          return;
+        if (e.key === "ArrowRight") showLetter(currentIndex + 1);
+        if (e.key === "ArrowLeft") showLetter(currentIndex - 1);
+        if (e.key === "Escape") closeLetter();
+      }
+      document.addEventListener("keydown", handleKeydown);
+    </script>
   </body>
 </html>
-
-<script>
-  function openLetter() {
-    document.getElementById("flap").classList.add("open");
-    setTimeout(() => {
-      document.getElementById("overlay").classList.add("visible");
-    }, 400);
-  }
-  function closeLetter() {
-    document.getElementById("overlay").classList.remove("visible");
-    setTimeout(() => {
-      document.getElementById("flap").classList.remove("open");
-    }, 200);
-  }
-  function maybeClose(e) {
-    if (e.target === document.getElementById("overlay")) closeLetter();
-  }
-</script>
